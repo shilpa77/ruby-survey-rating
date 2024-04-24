@@ -2,6 +2,7 @@ class Questionnaire
   require "pstore" # https://github.com/ruby/pstore
 
   STORE_NAME = "tendable.pstore"
+  POSITIVE_RESPONSE = ["yes", "y"]
 
   def initialize
     @store = PStore.new(STORE_NAME)
@@ -49,7 +50,7 @@ class Questionnaire
     end
 
     def calculate_rating(answers)
-      yes_count = answers.count { |answer| answer.start_with?('y') }
+      yes_count = answers.count { |answer| POSITIVE_RESPONSE.include?(answer)}
       total_questions = QUESTIONS.length
       (yes_count.to_f / total_questions * 100).round(2)
     end
